@@ -1,3 +1,4 @@
 import * as Health from "./health";
-
-export { Health };
+import * as Test from "./test";
+import * as signup from "./signup";
+export { Health, Test, signup };

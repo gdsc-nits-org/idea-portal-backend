@@ -1,3 +1,4 @@
 import Health from "./health";
-
-export { Health };
+import Test from "./test";
+import signup from "./signup";
+export { Health, Test, signup };
