@@ -1,3 +1,4 @@
 import * as Health from "./health";
+import * as Idea from "./Idea";
 
-export { Health };
+export { Health,Idea };
