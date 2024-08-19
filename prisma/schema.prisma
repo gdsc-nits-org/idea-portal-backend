@@ -10,6 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id String @id @default(auto()) @map("_id") @db.ObjectId
+model Idea {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  user        String
+  overview    String
+  description String
+  tags        String[]
+  progress    String
 }
+
