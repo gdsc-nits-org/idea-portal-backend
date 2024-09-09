@@ -36,6 +36,7 @@ app.use((_req,res,next)=>{
 //   return res.status(200).json({"msg" : "good"})
 // });
 app.post('/idea/add',Controllers.Idea.Create);
+app.get('/idea/read',Controllers.Idea.ReadAll);
 app.get('/idea/read/:user',Controllers.Idea.Read);
 app.patch('/idea/update/:id',Controllers.Idea.Update);
 app.delete('/idea/delete/:id',Controllers.Idea.Delete);
