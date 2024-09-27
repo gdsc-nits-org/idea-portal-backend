@@ -21,13 +21,12 @@ const corsOptions: MyCorsOptions = {
 const server = app.listen(Constants.System.PORT, () => {
   console.log(`Server started on port ${Constants.System.PORT}`);
 });
-const io = new Server(server, {
-  cors: {
-    origin: true,
-  },
-});
 
 app.use(cors(corsOptions));
+const io = new Server(server, {
+  cors: corsOptions,
+});
+
 app
   .use(helmet())
   .use(morgan("dev"))
@@ -41,6 +40,9 @@ app.use((_req, res, next) => {
   res.setHeader("Access-Control-Allow-Headers", "Origin, Content-Type, Accept");
   next();
 });
+
+commentSocket(io);
+
 app.post("/idea/add", Controllers.Idea.Create);
 app.get("/idea/read", Controllers.Idea.ReadAll);
 app.get("/idea/read/:user", Controllers.Idea.Read);
@@ -51,5 +53,3 @@ app.use(Middlewares.Error.errorHandler);
 app.get("/:id/comment", Controllers.Idea.ReadComments);
 app.post("/comment/add", Controllers.Idea.AddComment);
 app.delete("/comment/delete/:id", Controllers.Idea.DeleteComment);
-
-commentSocket(io);

@@ -3,15 +3,17 @@ import prisma from "../../prisma/index";
 
 export const commentSocket = (io: Server) => {
   io.on("connection", (socket: Socket) => {
+    console.log("New user connected:", socket.id);
+
     socket.on("newComment", async ({ ideaId, user, content }) => {
       try {
-        console.log("New User Connected");
         const comment = await prisma.comment.create({
           data: { content, ideaId, user },
         });
 
         io.emit("commentAdded", comment);
       } catch (error) {
+        console.error("Error adding comment:", error);
         socket.emit("error", { message: "Failed to add comment" });
       }
     });
@@ -19,8 +21,10 @@ export const commentSocket = (io: Server) => {
     socket.on("deleteComment", async ({ commentId }) => {
       try {
         await prisma.comment.delete({ where: { id: commentId } });
+
         io.emit("commentDeleted", commentId);
       } catch (error) {
+        console.error("Error deleting comment:", error);
         socket.emit("error", { message: "Failed to delete comment" });
       }
     });
@@ -34,8 +38,13 @@ export const commentSocket = (io: Server) => {
 
         io.emit("ideaLiked", idea);
       } catch (error) {
+        console.error("Error liking idea:", error);
         socket.emit("error", { message: "Failed to like idea" });
       }
+    });
+
+    socket.on("disconnect", () => {
+      console.log("User disconnected:", socket.id);
     });
   });
 };
