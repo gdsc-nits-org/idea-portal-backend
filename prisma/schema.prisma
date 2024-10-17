@@ -17,5 +17,15 @@ model Idea {
   description String
   tags        String[]
   progress    String
+  likes       Int      @default(0) 
+  comments    Comment[] 
+}
+model Comment {
+  id      String  @id @default(auto()) @map("_id") @db.ObjectId
+  ideaId  String  @db.ObjectId
+  user    String
+  content String
+  createdAt DateTime @default(now())
+  idea    Idea @relation(fields: [ideaId], references: [id])
 }
 
